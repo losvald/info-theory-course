@@ -25,6 +25,8 @@
 #ifndef BIT_ITERATOR_H_
 #define BIT_ITERATOR_H_
 
+#include <cstdio>
+
 #include "base.h"
 
 class BitIterator {
@@ -33,7 +35,7 @@ public:
 	virtual bool nextBit() = 0;
 };
 
-class FileBitIterator {
+class FileBitIterator : public BitIterator {
 	FILE* file_;
 	bool look_ahead_;
 	bool has_next_;
@@ -58,8 +60,8 @@ public:
 		return ret;
 	}
 	virtual bool readBit(FILE* file, bool& read_bit) {
-		char c;
-		if (fscanf(file, "%c", &c) != 1 || isEndline(c)) {
+		char c = getc(file);
+		if (c == EOF || isEndline(c)) {
 			read_bit = false;
 			return false;
 		}

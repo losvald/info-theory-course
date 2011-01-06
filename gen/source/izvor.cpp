@@ -1,5 +1,5 @@
 /*
- * symbol_generator.h
+ * izvor.cpp
  * 
  * Copyright (C) 2010-2011 Leo Osvald <leo.osvald@gmail.com>
  * 
@@ -16,41 +16,32 @@
  * limitations under the License. 
  */
 /*
- * symbol_generator.h
+ * izvor.cpp
  *
- *  Created on: Dec 24, 2010
+ *  Created on: Jan 3, 2011
  *      Author: Leo Osvald
  */
 
-#ifndef SYMBOL_GENERATOR_H_
-#define SYMBOL_GENERATOR_H_
+#include <cstdio>
+#include <cstring>
 
-#include <cstdlib>
+#include "../../source_properties.h"
+#include "symbol_generator.h"
 
-#include "../foreach.h"
-
-#include "../random_utils.h"
-#include "../source_properties.h"
-
-namespace source {
-
-	class SymbolGenerator {
-	private:
-		RandomUtils::DiscreteRandomVariable<char> var_;
-	public:
-
-		SymbolGenerator(const SymbolMap& symbol_map) : var_(0) {
-			FOREACH (it, symbol_map) {
-				var_.add(it->first, it->second);
-			}
-		}
-
-		char get() const {
-			return var_.get();
-		}
-
-	};
-
+void print_usage() {
+	fprintf(stderr, "Koristenje: izvor.exe [izlazna-datoteka]\n");
 }
 
-#endif /* SYMBOL_GENERATOR_H_ */
+int main(int argc, char **argv) {
+
+	FILE* output_file = (argc <= 1 ? fopen("12.txt", "w")
+			: (strcmp(argv[1], "-") ? fopen(argv[1], "w") : stdout));
+	source::SymbolGenerator gen(source::symbol_probabilities());
+	int n = 10000; // XXX hardkodirano
+	while (n-- > 0)
+		putc(gen.get(), output_file);
+	fclose(output_file);
+
+	return 0;
+}
+

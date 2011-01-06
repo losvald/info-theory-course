@@ -1,5 +1,5 @@
 /*
- * channel_properties.h
+ * symbol_generator.h
  * 
  * Copyright (C) 2010-2011 Leo Osvald <leo.osvald@gmail.com>
  * 
@@ -16,17 +16,37 @@
  * limitations under the License. 
  */
 /*
- * channel_properties.h
+ * symbol_generator.h
  *
- *  Created on: Dec 25, 2010
+ *  Created on: Dec 24, 2010
  *      Author: Leo Osvald
  */
 
-#ifndef CHANNEL_PROPERTIES_H_
-#define CHANNEL_PROPERTIES_H_
+#ifndef SYMBOL_GENERATOR_H_
+#define SYMBOL_GENERATOR_H_
 
-namespace channel {
-	const double errorProbability = 1. / 20;
+#include "../random_utils.h"
+#include "../../source_properties.h"
+
+namespace source {
+
+	class SymbolGenerator {
+	private:
+		RandomUtils::DiscreteRandomVariable<char> var_;
+	public:
+
+		SymbolGenerator(const ProbabilityMap& symbol_probabilities) : var_(0) {
+			FOREACH (it, symbol_probabilities) {
+				var_.add(it->first, it->second);
+			}
+		}
+
+		char get() const {
+			return var_.get();
+		}
+
+	};
+
 }
 
-#endif /* CHANNEL_PROPERTIES_H_ */
+#endif /* SYMBOL_GENERATOR_H_ */

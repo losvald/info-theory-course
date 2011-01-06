@@ -28,8 +28,8 @@ namespace source {
 
 SourceProperties SourceProperties::INSTANCE;
 
-const SymbolMap& symbol_frequencies() {
-	return SourceProperties::INSTANCE.symbol_frequencies();
+const ProbabilityMap& symbol_probabilities() {
+	return SourceProperties::INSTANCE.symbol_probabilities();
 }
 
 }

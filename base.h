@@ -25,9 +25,11 @@
 #ifndef BASE_H_
 #define BASE_H_
 
+#define FOREACH(it, c) for (__typeof((c).begin()) it = (c).begin(); it != (c).end(); ++it)
+
 #include <map>
 
-typedef std::map<char, double> SymbolMap;
+typedef std::map<char, double> ProbabilityMap;
 
 static bool toBit(char bit) {
 	if (bit < '0' || bit > '1')

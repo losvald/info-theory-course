@@ -33,7 +33,7 @@ namespace source {
 
 class SourceProperties {
 
-	SymbolMap symbol_frequencies_;
+	ProbabilityMap symbol_frequencies_;
 
   public:
 	SourceProperties() {
@@ -45,7 +45,7 @@ class SourceProperties {
 		symbol_frequencies_['e'] = 0.2;
 	}
 
-	const SymbolMap& symbol_frequencies() const {
+	const ProbabilityMap& symbol_probabilities() const {
 		return symbol_frequencies_;
 	}
 
@@ -53,7 +53,7 @@ class SourceProperties {
 
 };
 
-const SymbolMap& symbol_frequencies();
+const ProbabilityMap& symbol_probabilities();
 
 }
 

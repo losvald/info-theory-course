@@ -1,5 +1,5 @@
 /*
- * izvor.cpp
+ * ent_kod.cpp
  * 
  * Copyright (C) 2010-2011 Leo Osvald <leo.osvald@gmail.com>
  * 
@@ -16,19 +16,20 @@
  * limitations under the License. 
  */
 /*
- * izvor.cpp
+ * ent_kod.cpp
  *
- *  Created on: Jan 3, 2011
+ *  Created on: Jan 4, 2011
  *      Author: Leo Osvald
  */
 
 #include <cstdio>
+#include <cstring>
 
-#include "../source_properties.h"
-#include "symbol_source.h"
+#include "../../source_properties.h"
+#include "huffman_coder.h"
 
 void print_usage() {
-	fprintf(stderr, "Koristenje: izvor.exe izlazna-datoteka\n");
+	fprintf(stderr, "Koristenje: ent_kod.exe ulazna-datoteka [izlazna-datoteka]\n");
 }
 
 int main(int argc, char **argv) {
@@ -37,10 +38,15 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	printf("HELLO WORLD4");
-	FILE* output_file = fopen(argv[1], "w");
-	source::SymbolSource ss(output_file, source::symbol_frequencies());
-	ss.generate(10000);
+	FILE* input_file = (strcmp(argv[1], "-") ? fopen(argv[1], "r") : stdin);
+	FILE* output_file = (argc <= 2 ? fopen("23.txt", "w")
+			: (strcmp(argv[2], "-") ? fopen(argv[2], "w") : stdout));
+
+	entropycoding::HuffmanCoder coder(source::symbol_probabilities());
+	for (char c; (c = getc(input_file)) != EOF && !isEndline(c); )
+		fputs(coder.code(c).toString().c_str(), output_file);
+
+	fclose(input_file);
 	fclose(output_file);
 
 	return 0;

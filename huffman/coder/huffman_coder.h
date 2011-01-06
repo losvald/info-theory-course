@@ -25,31 +25,40 @@
 #ifndef HUFFMAN_CODER_H_
 #define HUFFMAN_CODER_H_
 
-#include <map>
+#include <cstddef>
 
-#include "../base.h"
-#include "../binary_code.h"
+#include "../../binary_code.h"
 #include "../huffman_tree.h"
 
 namespace entropycoding {
 
 class HuffmanCoder {
 
-	const HuffmanTree tree_;
-	std::map<char, BinaryCode> inverse_map_;
+	class Map {
+		BinaryCode arr_[0x80];
+	public:
+		void put(const char symbol, const BinaryCode& bc) {
+			arr_[(int)symbol] = bc;
+		}
+
+		const BinaryCode& at(const char symbol) const {
+			return arr_[(int)symbol];
+		}
+	} inverse_map_;
+
 	typedef HuffmanTree::Node Node;
 
 public:
 
-	HuffmanCoder(const SymbolMap& symbol_frequencies)
-	: tree_(symbol_frequencies) {
-		if (tree_.root() != NULL) {
+	HuffmanCoder(const ProbabilityMap& symbol_probabilities) {
+		HuffmanTree tree(symbol_probabilities);
+		if (tree.root() != NULL) {
 			BinaryCode prefix;
-			traverseAndMap(tree_.root(), prefix);
+			traverseAndMap(tree.root(), prefix);
 		}
 	}
 
-	BinaryCode code(char c) const {
+	const BinaryCode& code(char c) const {
 		return inverse_map_.at(c);
 	}
 
@@ -58,7 +67,7 @@ private:
 		if (node->isLeaf()) {
 			fprintf(stderr, "Huffman(%c) = %s\n", node->symbol(),
 					prefix.toString().c_str());
-			inverse_map_[node->symbol()] = prefix;
+			inverse_map_.put(node->symbol(), prefix);
 			return ;
 		}
 		bool bit = false;

@@ -464,6 +464,7 @@
 					</profile>
 				</scannerConfigBuildInfo>
 			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 		</cconfiguration>
 		<cconfiguration id="cdt.managedbuild.config.gnu.exe.release.1945804618">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.release.1945804618" moduleId="org.eclipse.cdt.core.settings" name="Release">
@@ -482,7 +483,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.exe.release.1945804618." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.exe.release.938213482" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.release">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.release.751734438" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.release"/>
-							<builder buildPath="${workspace_loc:/tinf-labos/Release}" id="cdt.managedbuild.target.gnu.builder.exe.release.1950233275" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.release"/>
+							<builder buildPath="${workspace_loc:/tinf-labos/Release}" id="cdt.managedbuild.target.gnu.builder.exe.release.1950233275" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.release"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1035545039" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.1071326499" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release">
 								<option id="gnu.cpp.compiler.exe.release.option.optimization.level.1945226426" name="Optimization Level" superClass="gnu.cpp.compiler.exe.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
@@ -506,6 +507,7 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.1945804618.684962217" name="makefile" rcbsApplicability="disable" resourcePath="Release/makefile" toolsToInvoke=""/>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
@@ -926,6 +928,7 @@
 					</profile>
 				</scannerConfigBuildInfo>
 			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">

@@ -25,8 +25,9 @@
 #ifndef HUFFMAN_DECODER_H_
 #define HUFFMAN_DECODER_H_
 
-#include "../base.h"
-#include "../binary_code.h"
+#include "../../base.h"
+#include "../../binary_code.h"
+#include "../../bit_iterator.h"
 #include "../huffman_tree.h"
 
 namespace entropycoding {
@@ -38,36 +39,28 @@ class HuffmanDecoder {
 
 public:
 
-	HuffmanDecoder(const SymbolMap& symbol_frequencies)
-	: tree_(symbol_frequencies) {
+	HuffmanDecoder(const ProbabilityMap& symbol_probabilities)
+	: tree_(symbol_probabilities) {
 	}
 
-	char decode(const BinaryCode& bc, int& decoded_bit_count) const {
+	/**
+	 * Iterira bit po bit dok god ne uspije dekodirati niz znakova.
+	 * Ako je dekodiranje uspjesno vraca znak razlicit od '\0' (0).
+	 * a u decoded_bits se nalaze dekodirani bitovi.
+	 * U slucaju da niz nije moguce dekodirati na temelju procitanih znakova,
+	 * u decoded_bits ce biti procitani znakovi.
+	 */
+	char decode(BitIterator& bit_iterator, BinaryCode& decoded_bits) const {
 		const Node* node = tree_.root();
-		decoded_bit_count = 0;
-		for (int i = 0; i < bc.size(); ++i) {
-			node = node->child(bc.isSet(i));
-			++decoded_bit_count;
-			if (node->isLeaf())
-				return node->symbol();
-		}
-		decoded_bit_count = 0;
-		return 0;
-	}
-
-
-	char decode(BitIterator& bit_iterator, int& decoded_bit_count) {
-		const Node* node = tree_.root();
-		decoded_bit_count = 0;
+		decoded_bits.clear();
 		while (bit_iterator.hasNextBit()) {
-			node = node->child(bit_iterator.nextBit());
-			++decoded_bit_count;
+			bool b = bit_iterator.nextBit();
+			decoded_bits.append(b);
+			node = node->child(b);
 			if (node->isLeaf())
 				return node->symbol();
 		}
-		decoded_bit_count = 0;
 		return 0;
-
 	}
 
 };
