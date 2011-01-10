@@ -1,0 +1,29 @@
+.zip je isporucen s vec kompajliranim programima za Linux operativni sustav.
+Dovoljno je slijediti upute za pokretanje, a u slucaju problema pokusajte rekompajlirati program pomocu "make"-a, kao sto kazu upute za kompajliranje.
+
+1. Upute za pokretanje
+Preduvjeti:
+-imati izvrsne datoteke i "runall.bat" skriptu
+Upute:
+1) pokrenuti runall.bat
+
+Redoslijed komandi u komandnoj liniji (GNU / Linux):
+./runall.bat
+
+2. Upute za kompajliranje
+Preduvjeti:
+-imati instalirani GNU Make
+-imate instaliran G++ kompajler
+(Na Ubuntu distribuciji Linux-a oboje je moguce instalirati pomocu "sudo apt-get install build-essential")
+Upute:
+1) pokrenuti naredbu "make"
+2) Ako zelite pobrisati sve izvrsne datoteke, pokrenite "make clean"
+
+Redoslijed komandi u komandnoj liniji (GNU / Linux):
+unzip NSK19.zip
+./runall.bat
+
+Ako se neki programi ne mogu pokrenuti, napravite "make clean" pa "make" pa ce moci.
+
+
+

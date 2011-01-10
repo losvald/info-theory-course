@@ -29,3 +29,7 @@
 
 # Eclipse settings
 /.settings/
+
+# Intermediate I/O files
+/Debug/*.txt
+/Release/*.txt

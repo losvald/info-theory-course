@@ -34,7 +34,7 @@
 namespace analysis {
 
 typedef std::pair<char, char> SymbolPair; // par simbola (poslano, primljeno)
-typedef std::map<SymbolPair, double> JointProbabilityMap;
+typedef std::map<SymbolPair, double> JoinedProbabilityMap;
 
 const int MAX_CHAR = 0x80;
 
@@ -69,10 +69,10 @@ double computeEntropy(const ProbabilityMap& symbol_map) {
 	return h / log(2);
 }
 
-double computeTransinformation(const JointProbabilityMap& joint_prob,
+double computeTransinformation(const JoinedProbabilityMap& joined_prob,
 		ProbabilityMap& src_p, ProbabilityMap& dest_p) {
 	double i = 0;
-	FOREACH(jp, joint_prob) {
+	FOREACH(jp, joined_prob) {
 		// i -= p(xi) * p(yi) * log2(p(xi, yi))
 		i -= src_p[jp->first.first] * dest_p[jp->first.second] * log(jp->second);
 	}
@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
 
 	int src_size = 0, dest_size = 0;
 	int src_freq[MAX_CHAR] = {0}, dest_freq[MAX_CHAR] = {0};
-	JointProbabilityMap joint_prob; // zdruzene vjerojatnosti
+	JoinedProbabilityMap joined_prob; // zdruzene vjerojatnosti
 	FILE* input_file_src = (strcmp(argv[1], "-") ? fopen(argv[1], "r") : stdin);
 	FILE* input_file_dest = (strcmp(argv[2], "-") ? fopen(argv[2], "r") : stdin);
 	for (bool src_eof = false, dest_eof = false; ; ) {
@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
 			break;
 
 		if (!src_eof && !dest_eof)
-			joint_prob[SymbolPair(src_c, dest_c)] += 1;
+			joined_prob[SymbolPair(src_c, dest_c)] += 1;
 	}
 	fclose(input_file_src);
 	fclose(input_file_dest);
@@ -130,7 +130,7 @@ int main(int argc, char **argv) {
 	// podijeli broj pojava para (poslano, primljeno) s brojem takvih parova
 	// da dobijes vjerojatnost
 	int min_size = (src_size < dest_size ? src_size : dest_size);
-	FOREACH(jp, joint_prob) {
+	FOREACH(jp, joined_prob) {
 		jp->second /= min_size;
 	}
 
@@ -143,9 +143,9 @@ int main(int argc, char **argv) {
 	printStatistics("Y", dest_prob, dest_freq, dest_size, dest_h);
 
 	printf("Transinformacija\n");
-	printf("I(X; Y) = %lf\n", computeTransinformation(joint_prob, src_prob, dest_prob));
+	printf("I(X; Y) = %lf\n", computeTransinformation(joined_prob, src_prob, dest_prob));
 	printf("Zdruzene vjerojatnosti:\n");
-	FOREACH(jp, joint_prob) {
+	FOREACH(jp, joined_prob) {
 		printf("p(%c, %c) = %lf\n", jp->first.first, jp->first.second, jp->second);
 	}
 

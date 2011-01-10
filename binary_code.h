@@ -143,4 +143,7 @@ public:
 
 };
 
+// class InvalidBinaryException : public std::exception {
+// }
+
 #endif
